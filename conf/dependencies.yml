@@ -1,4 +1,4 @@
-self: inativ -> elasticsearch 0.6
+self: inativ -> playframework-elasticsearch 0.6
 
 # Application dependencies
 
