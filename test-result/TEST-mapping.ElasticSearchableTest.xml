@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<testsuite failures="0" time="0.001" errors="0" skipped="0" tests="4" name="mapping.ElasticSearchableTest">
+  <testcase classname="mapping.ElasticSearchableTest" name="testNotSearchable" time="0">
+      </testcase>
+  <testcase classname="mapping.ElasticSearchableTest" name="testModelNotSearchable" time="0">
+      </testcase>
+  <testcase classname="mapping.ElasticSearchableTest" name="testModel" time="0.001">
+      </testcase>
+  <testcase classname="mapping.ElasticSearchableTest" name="testModelWithIndexName" time="0">
+      </testcase>
+</testsuite>

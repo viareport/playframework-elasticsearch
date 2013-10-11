@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<testsuite failures="0" time="0.004" errors="0" skipped="0" tests="6" name="mapping.EmbeddedMappingTest">
+  <testcase classname="mapping.EmbeddedMappingTest" name="testNotMapped" time="0.001">
+      </testcase>
+  <testcase classname="mapping.EmbeddedMappingTest" name="testMapped" time="0.001">
+      </testcase>
+  <testcase classname="mapping.EmbeddedMappingTest" name="testMappedWithPrefix" time="0">
+      </testcase>
+  <testcase classname="mapping.EmbeddedMappingTest" name="testMappedFields" time="0.001">
+      </testcase>
+  <testcase classname="mapping.EmbeddedMappingTest" name="testNestedMode" time="0">
+      </testcase>
+  <testcase classname="mapping.EmbeddedMappingTest" name="testObjectMode" time="0.001">
+      </testcase>
+</testsuite>

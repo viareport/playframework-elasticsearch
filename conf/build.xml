@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="inativ_play_utils" default="build" basedir=".">
+    <property name="project.name" value="inativ_play_utils"/>
+    <property environment="env"/>
+    <property name="play.path" value="${env.PLAY_PATH}"/>
+    <import file="${play.path}/resources/inativ-build.xml"/>
+
+    <target name="check" unless="play.path">
+        <fail message="Please specify Play framework path using -Dplay.path=/path/to/framework/home" />
+    </target>
+
+    <path id="project.classpath">
+        <pathelement path="${play.path}/framework/classes"/>
+        <fileset dir="${play.path}/framework/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${play.path}/framework">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="modules">
+            <include name="**/lib/*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="build" depends="compile">
+        <mkdir dir="lib" />
+        <copy todir="tmp/classes">
+            <fileset dir="src">
+                <include name="**/*.properties"/>
+                <include name="**/*.xml"/>
+                <include name="**/play.plugins"/>
+                <include name="**/play.static"/>
+            </fileset>
+        </copy>
+        <jar destfile="lib/play-inativ_play_utils.jar" basedir="tmp/classes">
+            <manifest>
+                <section name="Play-module">
+                    <attribute name="Specification-Title" value="inativ_play_utils"/>
+                </section>
+            </manifest>
+        </jar>
+        <delete dir="tmp" />
+    </target>
+
+    <target name="compile" depends="check">
+        <mkdir dir="tmp/classes" />
+        <javac destdir="tmp/classes" target="1.5" debug="true">
+            <src path="src"/>
+            <src path="app"/>
+            <src path="test/inativ_play_utils/utils"/>
+            <src path="test/inativ_play_utils/ext"/>
+            <src path="test/org"/>
+            <classpath refid="project.classpath" />
+        </javac>
+    </target>
+    
+    <target name="js-test"/>
+
+    <target name="unit-test" depends="build">
+        <echo message="play auto-test ${project.name} (wait)" />
+        <exec executable="${play.path}/play" failonerror="true">
+            <arg value="auto-test"/>
+            <arg value="${basedir}"/>
+            <arg value="--package=${project.name}"/>
+        </exec>
+        <available file="${basedir}/test-result/result.passed" property="${basedir}testPassed" />
+        <fail message="Last test has failed ! (Check results in file://${basedir}/test-result)">
+            <condition>
+                <not>
+                    <isset property="${basedir}testPassed"/>
+                </not>
+            </condition>
+        </fail>
+    </target>
+
+</project>

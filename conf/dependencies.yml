@@ -1,4 +1,4 @@
-self: play -> elasticsearch 0.5
+self: inativ -> elasticsearch 0.6
 
 # Application dependencies
 

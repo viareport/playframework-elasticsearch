@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<testsuite failures="0" time="0.01" errors="0" skipped="0" tests="2" name="mapping.CollectionMappingTest">
+  <testcase classname="mapping.CollectionMappingTest" name="testSimpleCollection" time="0.003">
+      </testcase>
+  <testcase classname="mapping.CollectionMappingTest" name="testObjectCollection" time="0.007">
+      </testcase>
+</testsuite>

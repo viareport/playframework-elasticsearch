@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<testsuite failures="0" time="5.79" errors="0" skipped="0" tests="2" name="AttachmentTest">
+  <testcase classname="AttachmentTest" name="mappingIndexAndSearch" time="3.283">
+      </testcase>
+  <testcase classname="AttachmentTest" name="mappingIndexAndWrongSearch" time="2.507">
+      </testcase>
+</testsuite>
