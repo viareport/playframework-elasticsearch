@@ -1,59 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="elasticsearch" default="build" basedir=".">
+<project name="playframework-elasticsearch" default="build" basedir=".">
+    <property name="project.name" value="playframework-elasticsearch"/>
+    <property environment="env"/>
+    <property name="play.path" value="${env.PLAY_PATH}"/>
+    <import file="${play.path}/resources/inativ-build.xml"/>
 
-	<path id="project.classpath">
-		<pathelement path="${play.path}/framework/classes" />
-		<fileset dir="${play.path}/framework/lib">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="${play.path}/framework">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="lib">
-			<include name="*.jar" />
-		</fileset>
-	</path>
-	
     <target name="check" unless="play.path">
         <fail message="Please specify Play framework path using -Dplay.path=/path/to/framework/home" />
     </target>
 
-	<target name="compile" depends="check">
+    <path id="project.classpath">
+        <pathelement path="${play.path}/framework/classes"/>
+        <fileset dir="${play.path}/framework/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${play.path}/framework">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="modules">
+            <include name="**/lib/*.jar"/>
+        </fileset>
+    </path>
 
-		<property name="ant.build.javac.source" value="1.6" />
-		<property name="ant.build.javac.target" value="1.6" />
+    <target name="build" depends="compile">
+        <mkdir dir="lib" />
+        <copy todir="tmp/classes">
+            <fileset dir="src">
+                <include name="**/*.properties"/>
+                <include name="**/*.xml"/>
+                <include name="**/play.plugins"/>
+                <include name="**/play.static"/>
+            </fileset>
+        </copy>
+        <jar destfile="lib/playframework-elasticsearch.jar" basedir="tmp/classes">
+            <manifest>
+                <section name="Play-module">
+                    <attribute name="Specification-Title" value="playframework-elasticsearch"/>
+                </section>
+            </manifest>
+        </jar>
+        <delete dir="tmp" />
+    </target>
 
-		<mkdir dir="tmp/classes" />
-		<javac srcdir="src" destdir="tmp/classes" target="1.6" debug="true"
-			classpathref="project.classpath">
-		</javac>
+    <target name="compile" depends="check">
+        <mkdir dir="tmp/classes" />
+        <javac destdir="tmp/classes" target="1.5" debug="true">
+            <src path="src"/>
+            <src path="app"/>
+            <classpath refid="project.classpath" />
+        </javac>
+    </target>
+    
+    <target name="js-test"/>
 
-	</target>
-
-	<target name="build" depends="compile">
-		<echo message="${play.path}/play"></echo>
-		<copy todir="tmp/classes">
-			<fileset dir="src">
-				<include name="**/*.properties" />
-				<include name="**/*.xml" />
-				<include name="**/play.plugins" />
-				<include name="**/play.static" />
-			</fileset>
-		</copy>
-		<jar destfile="lib/play-elasticsearch.jar" basedir="tmp/classes">
-			<manifest>
-				<section name="Play-module">
-					<attribute name="Specification-Title" value="elasticsearch" />
-				</section>
-			</manifest>
-		</jar>
-		<delete dir="tmp" />
-	</target>
-
-    <target name="clean">
-        <delete dir="tmp"/>
-        <delete dir="modules"/>
+    <target name="unit-test" depends="build">
+        <echo message="play auto-test ${project.name} (wait)" />
+        <exec executable="${play.path}/play" failonerror="true">
+            <arg value="auto-test"/>
+            <arg value="${basedir}"/>
+        </exec>
+        <available file="${basedir}/test-result/result.passed" property="${basedir}testPassed" />
+        <fail message="Last test has failed ! (Check results in file://${basedir}/test-result)">
+            <condition>
+                <not>
+                    <isset property="${basedir}testPassed"/>
+                </not>
+            </condition>
+        </fail>
     </target>
 
 </project>
